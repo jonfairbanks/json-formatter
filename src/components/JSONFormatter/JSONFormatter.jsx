@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card } from "components/Card/Card.jsx";
+import { Card } from "../Card/Card";
 import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -7,9 +7,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import {CopyToClipboard} from 'react-copy-to-clipboard';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import {UnControlled as CodeMirror} from 'react-codemirror2'
+import { UnControlled as CodeMirror } from 'react-codemirror2'
+
+import config from "../../config/config.json"
+
 require('codemirror/mode/javascript/javascript');
 require('codemirror/lib/codemirror.css');
 require('codemirror/theme/material.css');
@@ -35,6 +38,7 @@ var inputOptions = {
   theme: 'material',
   autofocus: true // Input box will take user input on page load
 };
+
 var outputOptions = {
   lineNumbers: true,
   mode: { name: 'javascript', json: true },
@@ -63,13 +67,16 @@ export class JSONFormatter extends Component {
   clearInputText = () => {
     this.setState({'inputText': ''});
   };
+
   resetInputText = () => {
-    this.setState({'inputText': this.props.sampleJSON});
+    this.setState({'inputText': config.sampleJSON || this.props.sampleJSON});
   };
+
   copyJSON = () => {
     let _this = this;
     setTimeout(function(){ _this.setState({'copied' : false}); }, 4000);
   };
+
   onInputTextChange = (event, data, value) => {
     try{
       this.setState({'inputText': event.target.value});
@@ -77,9 +84,11 @@ export class JSONFormatter extends Component {
       this.setState({'inputText': value});
     }
   };
+
   onIndentationChange = (event) => {
     this.setState({'indent' : event.target.value});
   };
+
   formatJSON(input, space) {
     if (input) {
       var parsedData = JSON.parse(input);
@@ -90,6 +99,7 @@ export class JSONFormatter extends Component {
         return '';
     }
   }
+
   getJSONData(){
     // eslint-disable-next-line
     var outputText, outputClass;
@@ -107,23 +117,24 @@ export class JSONFormatter extends Component {
 
     return outputText
   }
+
   UNSAFE_componentWillMount() {
     this.setState({
-      inputText: this.props.sampleJSON,
+      inputText: config.sampleJSON || this.props.sampleJSON,
       indent: this.props.defaultIndent,
       copied: false
     });
   }
+
   componentWillUnmount() {
     window.confirm('You are leaving the JSON Formatter.')
   }
+
   render() {
     return (
       <Card
         title={this.props.title}
         category={this.props.subtitle}
-        statsIcon="fab fa-react"
-        stats="Powered by React"
         content={
           <div>
             <MuiThemeProvider theme={theme}>
