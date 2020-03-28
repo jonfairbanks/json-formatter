@@ -17,7 +17,9 @@ function App() {
           JSON Formatter
         </a>
       </header>
-      <JSON />
+      <div className="App-container">
+        <JSON />
+      </div>
     </div>
   );
 }

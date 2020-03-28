@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Card } from "../Card/Card";
 import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -21,12 +20,12 @@ require('codemirror/theme/material.css');
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#83c3f7', // Light Blue
-      contrastText: '#fff', // White
+      main: '#253237', // Dark Blue
+      contrastText: '#5C6B73', // Dark Grey
     },
     secondary: {
       main: '#a2cf6e', // Light Green (for Copied button)
-      contrastText: '#fff', // White
+      contrastText: '#5C6B73', // Dark Grey
     },
   },
 });
@@ -121,7 +120,7 @@ export class JSONFormatter extends Component {
   UNSAFE_componentWillMount() {
     this.setState({
       inputText: config.sampleJSON || this.props.sampleJSON,
-      indent: this.props.defaultIndent,
+      indent: config.defaultIndent || this.props.defaultIndent,
       copied: false
     });
   }
@@ -132,81 +131,77 @@ export class JSONFormatter extends Component {
 
   render() {
     return (
-      <Card
-        title={this.props.title}
-        category={this.props.subtitle}
-        content={
-          <div>
-            <MuiThemeProvider theme={theme}>
-              <span style={{ fontFamily: "Roboto", fontSize: 22, fontWeight: 300, marginBottom: 20 }}>Raw JSON:</span>
-              <div id="formatter"></div>
-              <div style={{
-                margin: 0,
-                padding: 0,
-                border: 0,
-                fontSize: '100%',
-                font: 'inherit',
-                verticalAlign: 'baseline',
-              }}>
-                  <CodeMirror ref="display" value={this.state.inputText} onChange={this.onInputTextChange} options={inputOptions} preserveScrollPosition={true} autoCursor={false} />
-                  <br/>
-                  <Button onClick={this.clearInputText} size="small" variant="contained" color="primary" style={{ fontSize: 11 }}>
-                    <i className="far fa-trash-alt"></i>
-                    <span style={{ marginLeft: 6 }}>Clear Input</span>
-                  </Button>
-                  <Button onClick={this.resetInputText} size="small" variant="contained" color="primary" style={{ marginLeft: 10, fontSize: 11 }}>
-                    <i className="fas fa-sync"></i>
-                    <span style={{ marginLeft: 6 }}>Reset Sample</span>
-                  </Button>
-                  <br/>
-                  <hr/>
-                  <span style={{ fontFamily: "Roboto", fontSize: 22, fontWeight: 300, marginBottom: 20 }}>Formatted JSON:</span>
-                  <FormattedJSON
-                    inputText={this.getJSONData()}
-                    indent={this.state.indent}
-                  />
-                  <br/>
-                  <div className="indentation">
-                    <FormControl style={{ minWidth: 100 }}>
-                      <InputLabel htmlFor="age-helper" style={{ fontSize: 12 }}>Indent</InputLabel>
-                      <Select
-                        value={this.state.indent}
-                        onChange={this.onIndentationChange}
-                        input={ <Input name="indent" id="indent-type" /> }
-                        style={{
-                          fontSize: 11
-                        }}
-                      >
-                        <MenuItem value={0}>
-                          <em>None</em>
-                        </MenuItem>
-                        <MenuItem value={1}>One Space</MenuItem>
-                        <MenuItem value={2}>Two Spaces</MenuItem>
-                        <MenuItem value={4}>Four Spaces</MenuItem>
-                        <MenuItem value={"TAB"}>Tabs</MenuItem>
-                      </Select>
-                      <FormHelperText style={{ fontSize: 8 }}>Formatting Type</FormHelperText>
-                    </FormControl>
-                  </div>
-                  <br/>
-                  {this.state.copied
-                    ? <Button onClick={this.copyJSON} size="small" variant="contained" color="secondary" style={{ fontSize: 11 }}>
-                        <i className="fas fa-check"></i>
-                        <span style={{ marginLeft: 6 }}>Copied</span>
-                      </Button>
-                    : <CopyToClipboard text={this.getJSONData()} onCopy={() => this.setState({copied: true})}>
-                        <Button onClick={this.copyJSON} size="small" variant="contained" color="primary" style={{ fontSize: 11 }}>
-                          <i className="fas fa-copy"></i>
-                          <span style={{ marginLeft: 6 }}>Copy JSON</span>
-                        </Button>
-                      </CopyToClipboard>
-                  }
-                  <br/><br/>
-                </div>
-              </MuiThemeProvider>
+      <div>
+        <MuiThemeProvider theme={theme}>
+          <span style={{ fontFamily: "Roboto", fontSize: 22, fontWeight: 300, marginBottom: 20 }}>Raw JSON:</span>
+          <div id="formatter"></div>
+          <div style={{
+            margin: 0,
+            padding: 0,
+            border: 0,
+            fontSize: '100%',
+            font: 'inherit',
+            verticalAlign: 'baseline',
+            width: '99%'
+          }}>
+            <CodeMirror ref="display" value={this.state.inputText} onChange={this.onInputTextChange} options={inputOptions} preserveScrollPosition={true} autoCursor={false} />
+            <br/>
+            <Button onClick={this.clearInputText} size="small" variant="contained" color="primary" style={{ fontSize: 11 }}>
+              <i className="far fa-trash-alt"></i>
+              <span style={{ marginLeft: 6 }}>Clear Input</span>
+            </Button>
+            <Button onClick={this.resetInputText} size="small" variant="contained" color="primary" style={{ marginLeft: 10, fontSize: 11 }}>
+              <i className="fas fa-sync"></i>
+              <span style={{ marginLeft: 6 }}>Reset Sample</span>
+            </Button>
+            <br/><br/>
+            <hr/>
+            <br/>
+            <span style={{ fontFamily: "Roboto", fontSize: 22, fontWeight: 300, marginBottom: 20 }}>Formatted JSON:</span>
+            <FormattedJSON
+              inputText={this.getJSONData()}
+              indent={this.state.indent}
+            />
+            <br/>
+            <div className="indentation">
+              <FormControl style={{ minWidth: 100 }}>
+                <InputLabel htmlFor="age-helper" style={{ fontSize: 12 }}>Indent</InputLabel>
+                <Select
+                  value={this.state.indent}
+                  onChange={this.onIndentationChange}
+                  input={ <Input name="indent" id="indent-type" /> }
+                  style={{
+                    fontSize: 11
+                  }}
+                >
+                  <MenuItem value={0}>
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={1}>One Space</MenuItem>
+                  <MenuItem value={2}>Two Spaces</MenuItem>
+                  <MenuItem value={4}>Four Spaces</MenuItem>
+                  <MenuItem value={"TAB"}>Tabs</MenuItem>
+                </Select>
+                <FormHelperText style={{ fontSize: 8 }}>Formatting Type</FormHelperText>
+              </FormControl>
             </div>
-        }
-      />
+            <br/>
+            {this.state.copied
+              ? <Button onClick={this.copyJSON} size="small" variant="contained" color="secondary" style={{ fontSize: 11 }}>
+                  <i className="fas fa-check"></i>
+                  <span style={{ marginLeft: 6 }}>Copied</span>
+                </Button>
+              : <CopyToClipboard text={this.getJSONData()} onCopy={() => this.setState({copied: true})}>
+                  <Button onClick={this.copyJSON} size="small" variant="contained" color="primary" style={{ fontSize: 11 }}>
+                    <i className="fas fa-copy"></i>
+                    <span style={{ marginLeft: 6 }}>Copy JSON</span>
+                  </Button>
+                </CopyToClipboard>
+            }
+            <br/><br/>
+          </div>
+        </MuiThemeProvider>
+      </div>
     );
   }
 }
