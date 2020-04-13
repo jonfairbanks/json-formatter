@@ -21,7 +21,7 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       main: '#253237', // Dark Blue
-      contrastText: '#5C6B73', // Dark Grey
+      contrastText: '#AAA', // Grey
     },
     secondary: {
       main: '#a2cf6e', // Light Green (for Copied button)
