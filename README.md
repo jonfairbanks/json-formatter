@@ -15,7 +15,7 @@
 This application is also available on [Dockerhub](https://hub.docker.com/r/jonfairbanks/json-formatter).
 
 To launch the container: 
-`docker run --name md-editor -d -p 8888:8888 jonfairbanks/json-formatter`
+`docker run --name json-formatter -d -p 8888:8888 jonfairbanks/json-formatter`
 
 To attach to a running container:
 `docker exec -it json-formatter /bin/bash`
