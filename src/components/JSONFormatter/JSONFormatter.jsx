@@ -57,6 +57,7 @@ class FormattedJSON extends Component {
           onChange={ (editor, data, value) => {} }
           preserveScrollPosition={true}
         />
+        <br/>
       </div>
     );
   }
