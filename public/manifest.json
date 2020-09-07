@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "JSON Formatter",
+  "name": "JSON Formatter",
   "icons": [
     {
       "src": "favicon.ico",
