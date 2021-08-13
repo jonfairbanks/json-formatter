@@ -112,7 +112,7 @@ export class JSONFormatter extends Component {
     catch (err) {
       // JSON.parse threw an exception
       outputText = 'It looks like there was an error with your JSON---\n\n' + err.message;
-      outputClass = 'output-error';
+      outputClass = 'output-error'; // eslint-disable-line
     }
 
     return outputText
